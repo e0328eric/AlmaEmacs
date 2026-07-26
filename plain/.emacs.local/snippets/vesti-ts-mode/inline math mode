@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: inline math mode
+# key: be
+# expand-env: ((yas-indent-line 'fixed) (yas-also-auto-indent-first-line t))
+# --
+$$
+	$1
+$$

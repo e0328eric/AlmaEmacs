@@ -1,0 +1,43 @@
+#+TITLE: emacs-setting-readme
+
+* Tree Sitter Setting
+First of all, run the following command to check what treesit version is used in emacs.
+```emacs
+M-x eval-expression RET (treesit-library-abi-version) RET
+```
+
+Every treesitter parser file should be named by `libtree-sitter-<lang name>.dll`
+or `libtree-sitter-<lang name>.so`.
+
+** Typst
+
+=.typ= files use =typst-ts-mode= for tree-sitter syntax highlighting and start
+=lsp-mode= automatically. Windows uses the bundled
+=tree-sitter/libtree-sitter-typst.dll=, so no C compiler or grammar installation
+is needed. On other systems, install the parser with
+=M-x treesit-install-language-grammar RET typst RET=.
+
+Install =tinymist= in =PATH= for language-server features, or run
+=M-x typst-ts-lsp-download-binary=; the configuration detects that downloaded
+binary automatically.
+
+* MessagePack editor
+
+Files ending in =.msgpack=, =.mpack=, or =.mpk= open with =msgpack-mod=.
+The mode displays editable JSON on the left and the binary data in Emacs's
+hex editor on the right.  Both panes write back to the original binary file.
+
+- =C-c C-c=: apply the current JSON or raw hex view
+- =C-u C-c C-c=: keep the current pane when both panes were edited
+- =C-x C-s=: apply the latest edit and save the MessagePack file
+- =C-c C-j= / =C-c C-h=: select the JSON / hex pane
+- =C-c C-r=: discard edits and reload the file
+- =C-c C-i= / =C-c C-d= in the hex pane: insert / delete a raw byte
+
+Binary values, extensions, non-string or duplicate map keys, and non-finite
+floats use a reserved ={ "$msgpack": ... }= JSON representation so those
+MessagePack-only values can be edited without losing their type.
+
+A formatting-only JSON edit preserves the original bytes.  Once a JSON value
+changes, its containing MessagePack value is regenerated canonically: integers
+use their shortest encoding and ordinary finite floats use float64.

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: inline math mode
+# key: be
+# --
+$$
+    $1
+$$
