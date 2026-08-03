@@ -66,7 +66,7 @@
   (set-face-attribute 'default nil :family my/font-name :height my/font-size)
   (set-face-attribute 'fixed-pitch nil :family my/font-name :height my/font-size)
   (set-face-attribute 'variable-pitch nil :family my/font-name :height my/font-size)
-  (set-fontset-font t 'hangul (font-spec :family "D2CodingLigature Nerd Font")))
+  (set-fontset-font t 'hangul (font-spec :family "D2KodingLigature Nerd Font")))
 
 (if (daemonp)
 	(add-hook 'after-make-frame-functions #'my/apply-fonts)
@@ -159,6 +159,7 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key (kbd "<escape> f b") 'xref-go-back)
 (global-set-key (kbd "<escape> f s") 'tags-search)
 (global-set-key (kbd "<escape> f r") 'tags-query-replace)
+(global-set-key (kbd "<escape> T") #'glosso-update-tags)
 (define-key key-translation-map (kbd "<escape> ESC") (kbd "C-g"))
 
 (defun my-powershell-quote (text)
@@ -237,6 +238,94 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; glosso mode
 (require 'glosso-ts-mode)
+(require 'etags)
+
+(defun glosso-install-directory ()
+  "Return the platform-specific Glosso installation directory."
+  (file-name-as-directory
+   (if (eq system-type 'windows-nt)
+       (expand-file-name
+        "glosso"
+        (or (getenv "APPDATA")
+            (user-error "APPDATA is not defined")))
+     (expand-file-name "~/.local/glosso"))))
+
+(defun glosso-tags-file ()
+  "Return the installed Glosso TAGS filename."
+  (expand-file-name "TAGS" (glosso-install-directory)))
+
+(defun glosso-use-installed-tags ()
+  "Use the installed Glosso TAGS table in the current buffer."
+  (setq-local tags-table-list
+              (list (glosso-tags-file))))
+
+(add-hook 'glosso-ts-mode-hook #'glosso-use-installed-tags)
+
+(defun glosso-update-tags ()
+  "Regenerate TAGS in the installed Glosso directory."
+  (interactive)
+  (let* ((root (glosso-install-directory))
+         (std-directory (expand-file-name "std" root))
+         (tags-file (glosso-tags-file))
+         (etags-program
+          (or (executable-find "etags")
+              (user-error "Cannot find the etags executable")))
+         (output-buffer (get-buffer-create "*glosso-etags*"))
+         (default-directory root))
+
+    (unless (file-directory-p std-directory)
+      (user-error "Glosso std directory does not exist: %s"
+                  std-directory))
+
+    (let* ((source-files
+            (directory-files-recursively std-directory "\\.glo\\'"))
+           (relative-files
+            (mapcar (lambda (file)
+                      (file-relative-name file root))
+                    source-files))
+           status)
+
+      (unless source-files
+        (user-error "No .glo files found under %s" std-directory))
+
+      (with-current-buffer output-buffer
+        (erase-buffer))
+
+      (message "Generating %s..." tags-file)
+
+      (setq status
+            (apply
+             #'process-file
+             etags-program nil output-buffer nil
+             "--language=none"
+             "--regex=/[ \t]*\\([A-Za-z_][A-Za-z0-9_]*\\)[ \t]*::[ \t]*(/\\1/"
+             "--output=TAGS"
+             relative-files))
+
+      (if (zerop status)
+          (progn
+            ;; Reload an already-open TAGS buffer.
+            (when-let ((buffer (get-file-buffer tags-file)))
+              (with-current-buffer buffer
+                (revert-buffer t t)
+                (setq tags-completion-table nil
+                      tags-table-files nil
+                      tags-included-tables nil)))
+
+            ;; Clear cached tag completions.
+            (setq-default tags-completion-table nil)
+            (dolist (buffer (buffer-list))
+              (with-current-buffer buffer
+                (when (local-variable-p 'tags-completion-table)
+                  (setq-local tags-completion-table nil))))
+
+            ;; Activate the regenerated table globally.
+            (visit-tags-table tags-file)
+            (message "Updated %s from %d Glosso files"
+                     tags-file (length source-files)))
+
+        (pop-to-buffer output-buffer)
+        (user-error "etags failed with status %s" status)))))
 
 ;; lsp
 (use-package lsp-mode
