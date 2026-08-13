@@ -22,6 +22,7 @@
 
 [
   "#comptime"
+  "#lazy"
   "#import"
   "#load"
   "#private_section"
@@ -42,6 +43,7 @@
   "#foreign"
   "#memory"
   "#c_call"
+  "#packed"
   "#no_context"
   "#dump"
   "#fallback"
@@ -57,6 +59,7 @@
   "#insert"
   "#compile_error"
   "#pattern"
+  "#try"
   "#minimal"
   "#falling"
   "#meaningful"
@@ -80,14 +83,110 @@
 (context_expression) @constant.builtin
 (context_type) @type.builtin
 
+; Give every identifier a baseline capture first. Context-specific captures below
+; must come later so clients that resolve overlapping captures by query order do
+; not paint functions, parameters, properties, and types as plain variables.
+(identifier) @variable
+(code_splice_identifier) @variable
+(non_hygienic_identifier) @variable
+(label) @label
+(quoted_operator) @operator
+(operator) @operator
+(prefix_operator) @operator
+(try_operator) @operator
+
+; Types
+(named_type [
+  (identifier)
+  (code_splice_identifier)
+] @type)
+(generic_type
+  name: [
+    (identifier)
+    (code_splice_identifier)
+  ] @type)
+(generic_type
+  member: [
+    (identifier)
+    (code_splice_identifier)
+  ] @type)
+(generic_type_variable
+  name: (identifier) @type)
+(type_constructor_pattern [
+  (identifier)
+  (code_splice_identifier)
+] @type)
+(generic_type_constructor_pattern
+  name: [
+    (identifier)
+    (code_splice_identifier)
+  ] @type)
+(instance_declaration
+  class: (identifier) @type)
+
+(named_declaration
+  name: (declaration_name [
+    (identifier)
+    (code_splice_identifier)
+  ] @type.definition)
+  [
+    (function_pointer_type_declaration)
+    (typeclass_declaration)
+    (struct_declaration)
+    (enum_flags_declaration)
+    (enum_declaration)
+    (union_declaration)
+  ])
+(nested_declaration
+  name: (declaration_name [
+    (identifier)
+    (code_splice_identifier)
+  ] @type.definition)
+  [
+    (struct_declaration)
+    (enum_declaration)
+    (union_declaration)
+  ])
+(typeclass_associated_type
+  name: (declaration_name [
+    (identifier)
+    (code_splice_identifier)
+  ] @type.definition))
+(instance_associated_type
+  name: (declaration_name [
+    (identifier)
+    (code_splice_identifier)
+  ] @type.definition))
+
+; Parameters
 (named_argument name: (identifier) @variable.parameter)
 (typeclass_parameter name: (identifier) @variable.parameter)
 (lambda_parameter name: (identifier) @variable.parameter)
-(declaration_name) @function
-(function_declaration (parameter_list (parameter name: (binding_list (identifier) @variable.parameter))))
-(parameter name: (binding_list (identifier) @variable.parameter))
-(parameter name: (identifier) @variable.parameter)
-(comptime_parameter name: (binding_list (identifier) @variable.parameter))
+(parameter
+  name: (binding_list [
+    (identifier)
+    (code_splice_identifier)
+    (non_hygienic_identifier)
+  ] @variable.parameter))
+(parameter
+  name: [
+    (identifier)
+    (code_splice_identifier)
+    (non_hygienic_identifier)
+  ] @variable.parameter)
+(comptime_parameter
+  name: (binding_list [
+    (identifier)
+    (code_splice_identifier)
+    (non_hygienic_identifier)
+  ] @variable.parameter))
+(fn_ptr_parameter name: (identifier) @variable.parameter)
+(function_type
+  (type_element name: (identifier) @variable.parameter))
+(structured_asm_input_operand name: (identifier) @variable.parameter)
+(structured_asm_output_operand name: (identifier) @variable.parameter)
+
+; Properties
 (struct_field name: (identifier) @property)
 (union_field name: (identifier) @property)
 (enum_variant name: (identifier) @constant)
@@ -97,9 +196,52 @@
 (shorthand_member_pattern field: (identifier) @property)
 (postfix_expression field: (identifier) @property)
 (pattern_postfix_expression field: (identifier) @property)
-(postfix_expression function: (identifier) @function)
+
+; Functions
+(named_declaration
+  name: (declaration_name [
+    (identifier)
+    (code_splice_identifier)
+    (quoted_operator)
+  ] @function)
+  (function_declaration))
+(nested_declaration
+  name: (declaration_name [
+    (identifier)
+    (code_splice_identifier)
+    (quoted_operator)
+  ] @function)
+  (function_declaration))
+(typeclass_method_signature
+  name: (declaration_name [
+    (identifier)
+    (code_splice_identifier)
+    (quoted_operator)
+  ] @function))
+(instance_method
+  name: (declaration_name [
+    (identifier)
+    (code_splice_identifier)
+    (quoted_operator)
+  ] @function))
+(postfix_expression
+  function: [
+    (identifier)
+    (code_splice_identifier)
+    (non_hygienic_identifier)
+  ] @function.call)
+(postfix_expression
+  function: (postfix_expression
+    field: [
+      (identifier)
+      (code_splice_identifier)
+    ] @function.method.call))
+(memory_argument_reference
+  function: (identifier) @function.call)
+
 (library_modifier) @attribute
 (inline_modifier) @attribute
+(string_modifier) @attribute
 (partial_directive) @attribute
 (pattern_rest) @operator
 (matrix_type "Matrix" @type.builtin)
@@ -114,15 +256,5 @@
 (structured_asm_constraint_kind) @constant.builtin
 (structured_asm_operand_flag) @attribute
 (structured_asm_clobber_kind) @constant.builtin
-(structured_asm_input_operand name: (identifier) @variable.parameter)
-(structured_asm_output_operand name: (identifier) @variable.parameter)
 (import_selector mode: _ @attribute)
 (expand_directive mode: (identifier) @attribute)
-
-(identifier) @variable
-(code_splice_identifier) @variable
-(non_hygienic_identifier) @variable
-(label) @label
-(quoted_operator) @operator
-(operator) @operator
-(prefix_operator) @operator
