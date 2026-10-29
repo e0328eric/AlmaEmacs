@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 (require 'xcode-common)
 
 (deftheme xcode-dark "Xcode theme, the dark version")

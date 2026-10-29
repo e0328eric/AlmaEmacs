@@ -1,4 +1,4 @@
-;; texmathp.el -- Code to check if point is inside LaTeX math environment
+;; texmathp.el -- Code to check if point is inside LaTeX math environment  -*- lexical-binding: t; -*-
 ;; Copyright (c) 2003 Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <dominik@science.uva.nl>
@@ -209,15 +209,18 @@ it points to the limit used for searches, usually two paragraphs up.")
   (setq texmathp-tex-commands1 (append texmathp-tex-commands
 				       texmathp-tex-commands-default))
   (let ((list (reverse texmathp-tex-commands1))
-	var entry type switches togglers)
+	entry type switches togglers)
     (while (setq entry (car list))
       (setq type (nth 1 entry)
-	    list (cdr list)
-	    var (cond ((memq type '(env-on env-off)) 'texmathp-environments)
-		      ((memq type '(arg-on arg-off)) 'texmathp-macros)
-		      ((memq type '(sw-on sw-off))   'switches)
-		      ((memq type '(sw-toggle))      'togglers)))
-      (set var (cons (car entry) (symbol-value var))))
+	    list (cdr list))
+      (cond ((memq type '(env-on env-off))
+	     (push (car entry) texmathp-environments))
+	    ((memq type '(arg-on arg-off))
+	     (push (car entry) texmathp-macros))
+	    ((memq type '(sw-on sw-off))
+	     (push (car entry) switches))
+	    ((memq type '(sw-toggle))
+	     (push (car entry) togglers))))
     (setq texmathp-onoff-regexp
 	  (concat "[^\\\\]\\(" 
 		  (mapconcat 'regexp-quote switches "\\|")
@@ -346,7 +349,8 @@ See the variable `texmathp-tex-commands' about which commands are checked."
 	  (setq env (buffer-substring-no-properties
 		     (match-beginning 2) (match-end 2)))
 	  (cond ((string= (match-string 1) "end")
-		 (add-to-list 'end-list env))
+		 (unless (member env end-list)
+		   (push env end-list)))
 		((equal env (car end-list))
 		 (setq end-list (cdr end-list)))
 		((member env texmathp-environments)

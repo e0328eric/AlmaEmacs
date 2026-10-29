@@ -1,4 +1,4 @@
-;;; make-regexp.el --- generate efficient regexps to match strings.
+;;; make-regexp.el --- generate efficient regexps to match strings.  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 1994, 1995 Simon Marshall.
 

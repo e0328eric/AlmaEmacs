@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 ;;(when (eq system-type 'windows-nt)
 ;; (setenv "HOME" (concat "C:/Users/" (getenv "USERNAME"))))
 ;;(when (memq system-type '(gnu gnu/linux darwin))
@@ -36,6 +37,25 @@
 (setq backup-directory-alist
       `((".*" . ,(expand-file-name ".emacs.d/backups/" my-home-config-dir))))
 
+;; MSVC environment (overwrites PATH and exec-path, so load it first)
+(when (eq system-type 'windows-nt)
+  (load "msvc_env"))
+
+;; extra PATH entries (otherwise only set by the shell config)
+(defconst my-extra-paths
+  (cond
+   ((eq system-type 'windows-nt)
+    '("~/.local/bin"
+      "~/.cargo/bin"))
+   ((memq system-type '(gnu gnu/linux darwin))
+    '("~/.local/bin"
+      "~/.cargo/bin"))))
+(dolist (dir (reverse my-extra-paths))
+  (let ((dir (expand-file-name dir)))
+    (add-to-list 'exec-path dir)
+    (setenv "PATH" (concat (convert-standard-filename dir)
+                           path-separator (getenv "PATH")))))
+
 ;; default settings
 (setq-default inhibit-splash-screen t)
 (setq-default tab-width 4)
@@ -60,8 +80,8 @@
 
 ;; setting fonts
 ;; font_height == pixel * 10
-(setq my/font-name "FiraCode Nerd Font Mono")
-(setq my/font-size 110)
+(setq my/font-name "JetBrainsMono Nerd Font Mono")
+(setq my/font-size 90)
 (defun my/apply-fonts (&optional _frame)
   (set-face-attribute 'default nil :family my/font-name :height my/font-size)
   (set-face-attribute 'fixed-pitch nil :family my/font-name :height my/font-size)

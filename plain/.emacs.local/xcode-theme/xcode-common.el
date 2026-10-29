@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: nil; -*-
 (defgroup xcode-theme nil
   "Xcode-theme options."
   :group 'faces)

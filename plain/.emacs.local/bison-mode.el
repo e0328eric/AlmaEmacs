@@ -1,4 +1,4 @@
-; -*- Mode: Emacs-Lisp; -*- 
+; -*- Mode: Emacs-Lisp; lexical-binding: t; -*-
 
 ;;;; bison-mode.el --- Major mode for editing bison/yacc files
 ;;;; Copyright (C) 1998 Eric Beuscher
