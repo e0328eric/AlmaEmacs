@@ -9,6 +9,35 @@ M-x eval-expression RET (treesit-library-abi-version) RET
 Every treesitter parser file should be named by `libtree-sitter-<lang name>.dll`
 or `libtree-sitter-<lang name>.so`.
 
+** Glosso
+
+=.glo= files use =glosso-ts-mode=. The bundled x86-64 Linux and Windows
+parsers and the queries in =.emacs.local/glosso/= come from
+=~/Github/tree-sitter-glosso=, commit =e43a119=. They require Tree-sitter
+ABI 15 support in Emacs.
+
+To refresh the queries and Linux parser from that checkout, run from this
+configuration directory:
+
+#+begin_src sh
+glosso_grammar="$HOME/Github/tree-sitter-glosso"
+cp "$glosso_grammar/queries/highlights.scm" "$glosso_grammar/queries/locals.scm" .emacs.local/glosso/
+cc -O2 -fPIC -shared -I "$glosso_grammar/src" \
+  "$glosso_grammar/src/parser.c" "$glosso_grammar/src/scanner.c" \
+  -o tree-sitter/libtree-sitter-glosso.so
+emacs --batch -Q -L .emacs.local -l test/glosso-ts-mode-tests.el \
+  -f ert-run-tests-batch-and-exit
+#+end_src
+
+The Windows DLL can be rebuilt from the same two C files with
+=zig cc -target x86_64-windows-gnu -O2 -shared=, the same include directory,
+and =-o tree-sitter/libtree-sitter-glosso.dll=. Both builds must include
+=src/scanner.c= for nested comments and suffix operators.
+
+Restart Emacs after replacing a parser library; loaded grammars stay in
+memory for the session. The mode adapts the shared query's predicates and
+capture priorities to Emacs font-lock automatically.
+
 ** Typst
 
 =.typ= files use =typst-ts-mode= for tree-sitter syntax highlighting and start

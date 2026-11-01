@@ -1,12 +1,12 @@
-;;; "Compiled" snippets and support files for `vesti-mode'  -*- lexical-binding:t -*-
+;;; "Compiled" snippets and support files for `vesti-ts-mode'  -*- lexical-binding:t -*-
 ;;; Snippet definitions:
 ;;;
-(yas-define-snippets 'vesti-mode
+(yas-define-snippets 'vesti-ts-mode
 					 '(("be" "$$\n	$1\n$$" "inline math mode" nil nil
 						((yas-indent-line 'fixed)
 						 (yas-also-auto-indent-first-line t))
-						"c:/Users/almag/.emacs.local/snippets/vesti-mode/inline math mode"
+						"/home/almagest/.config/emacs/.emacs.local/snippets/vesti-ts-mode/inline math mode"
 						nil nil)))
 
 
-;;; Do not edit! File generated at Sat Aug 16 16:16:50 2025
+;;; Do not edit! File generated at Thu Oct 29 17:45:23 2026

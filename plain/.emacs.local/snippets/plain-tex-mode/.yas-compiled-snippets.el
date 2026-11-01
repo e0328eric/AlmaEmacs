@@ -4,8 +4,8 @@
 (yas-define-snippets 'plain-tex-mode
 					 '(("be" "$$\n    $1\n$$\n$0" "display equation" nil nil
 						((yas-indent-line 'fixed))
-						"c:/Users/almag/.emacs.local/snippets/plain-tex-mode/inline math mode"
+						"/home/almagest/.config/emacs/.emacs.local/snippets/plain-tex-mode/inline math mode"
 						nil nil)))
 
 
-;;; Do not edit! File generated at Sat Aug 16 16:16:50 2025
+;;; Do not edit! File generated at Thu Oct 29 17:45:23 2026

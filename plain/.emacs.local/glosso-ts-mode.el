@@ -17,10 +17,9 @@
 ;; `.emacs.local' directory, a sibling `tree-sitter' directory is also used
 ;; automatically when it contains the Glosso grammar.
 ;;
-;; The query in `glosso/highlight.scm' is kept separate so it can also be
-;; shared by
-;; other Tree-sitter clients.  Its semantic capture names are translated to
-;; Emacs font-lock faces when the mode is initialized.
+;; The query in `glosso/highlights.scm' is kept separate so it can also be
+;; shared by other Tree-sitter clients.  Its predicates and semantic capture
+;; names are adapted for Emacs font-lock when the mode is initialized.
 
 ;;; Code:
 
@@ -49,8 +48,9 @@
   :type 'natnum
   :group 'glosso-ts)
 
-;; These are the capture names used by highlight.scm.  The values are
-;; strings because they become Tree-sitter query capture names.
+;; These are the capture names used by highlights.scm.  The values are
+;; strings because they become Tree-sitter query capture names.  Generic
+;; captures use callbacks so they cannot overwrite more specific faces.
 (defconst glosso-ts-mode--capture-faces
   '(("keyword" . "font-lock-keyword-face")
     ("attribute" . "font-lock-preprocessor-face")
@@ -61,15 +61,37 @@
     ("number.float" . "font-lock-constant-face")
     ("boolean" . "font-lock-constant-face")
     ("constant.builtin" . "font-lock-constant-face")
+    ("type" . "font-lock-type-face")
+    ("type.definition" . "font-lock-type-face")
     ("type.builtin" . "font-lock-type-face")
+    ("variable.builtin" . "font-lock-builtin-face")
     ("variable.parameter" . "font-lock-variable-name-face")
     ("function" . "font-lock-function-name-face")
-    ("property" . "font-lock-variable-name-face")
+    ("function.call" . "font-lock-function-name-face")
+    ("function.method.call" . "font-lock-function-name-face")
+    ("property" . "glosso-ts-mode--fontify-variable")
     ("constant" . "font-lock-constant-face")
-    ("variable" . "font-lock-variable-name-face")
+    ("variable" . "glosso-ts-mode--fontify-variable")
     ("label" . "font-lock-constant-face")
-    ("operator" . "font-lock-builtin-face"))
-  "Mapping from Glosso query captures to Emacs font-lock faces.")
+    ("operator" . "glosso-ts-mode--fontify-operator"))
+  "Mapping from Glosso query captures to faces or fontification functions.")
+
+(defun glosso-ts-mode--fontify-fallback (face node start end)
+  "Apply FACE to NODE between START and END where no face is present."
+  (let ((beg (max start (treesit-node-start node)))
+        (end (min end (treesit-node-end node))))
+    (when (< beg end)
+      (treesit-fontify-with-override beg end face 'keep))))
+
+(defun glosso-ts-mode--fontify-variable (node _override start end &rest _)
+  "Fontify NODE as a fallback variable between START and END."
+  (glosso-ts-mode--fontify-fallback
+   'font-lock-variable-name-face node start end))
+
+(defun glosso-ts-mode--fontify-operator (node _override start end &rest _)
+  "Fontify NODE as a fallback operator between START and END."
+  (glosso-ts-mode--fontify-fallback
+   'font-lock-builtin-face node start end))
 
 (defun glosso-ts-mode--font-lock-query ()
   "Read and adapt `glosso-ts-mode-highlights-file' for Emacs font-lock."
@@ -78,6 +100,22 @@
            glosso-ts-mode-highlights-file))
   (with-temp-buffer
     (insert-file-contents glosso-ts-mode-highlights-file)
+    ;; Emacs supports #match?, but not the CLI's #any-of? predicate.
+    ;; Read its string arguments and build an exact, case-sensitive match.
+    (goto-char (point-min))
+    (while (re-search-forward "(#any-of\\?\\s-+\\(@[[:alnum:]_.-]+\\)" nil t)
+      (let ((start (match-beginning 0))
+            (capture (match-string 1))
+            (values nil))
+        (skip-chars-forward " \t\r\n")
+        (while (eq (char-after) ?\")
+          (push (read (current-buffer)) values)
+          (skip-chars-forward " \t\r\n"))
+        (unless (and values (eq (char-after) ?\)))
+          (error "Invalid #any-of? predicate in Glosso highlight query"))
+        (delete-region start (1+ (point)))
+        (insert (format "(#match? %s %S)" capture
+                        (concat "\\`" (regexp-opt values) "\\'")))))
     (replace-regexp-in-string
      "@\\([[:alnum:]_.-]+\\)"
      (lambda (capture)
@@ -86,7 +124,7 @@
          (if face
              (concat "@" face)
            ;; Leave unknown captures intact.  This makes it possible to add
-           ;; non-font-lock captures to highlight.scm without breaking the
+           ;; non-font-lock captures to highlights.scm without breaking the
            ;; mode; Emacs simply ignores captures that are not faces or
            ;; functions.
            capture)))
@@ -151,6 +189,8 @@ The grammar language name is `glosso'.
               (treesit-font-lock-rules
                :language 'glosso
                :feature 'highlights
+               ;; Specific captures supersede fallback identifier/operator faces.
+               :override t
                (glosso-ts-mode--font-lock-query)))
   (setq-local treesit-font-lock-feature-list '((highlights)))
 
