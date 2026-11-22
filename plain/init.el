@@ -37,7 +37,7 @@
 (setq backup-directory-alist
       `((".*" . ,(expand-file-name ".emacs.d/backups/" my-home-config-dir))))
 
-;; MSVC environment (overwrites PATH and exec-path, so load it first)
+;; MSVC environment (vcvars64.bat variables, added on top of the inherited PATH)
 (when (eq system-type 'windows-nt)
   (load "msvc_env"))
 
@@ -80,7 +80,11 @@
 
 ;; setting fonts
 ;; font_height == pixel * 10
-(setq my/font-name "JetBrainsMono Nerd Font Mono")
+;; Windows (GDI) only knows Nerd Fonts v3 by their short legacy family name
+;; ("JetBrainsMono NFM"); fontconfig on Linux/macOS uses the full name.
+(setq my/font-name (if (eq system-type 'windows-nt)
+                       "JetBrainsMono NFM"
+                     "JetBrainsMono Nerd Font Mono"))
 (setq my/font-size 90)
 (defun my/apply-fonts (&optional _frame)
   (set-face-attribute 'default nil :family my/font-name :height my/font-size)
@@ -255,6 +259,36 @@ point reaches the beginning or end of the buffer, stop there."
 ;	       '(typst "https://github.com/uben0/tree-sitter-typst")))
 (use-package lua-mode :ensure t)
 (require 'vesti-ts-mode)
+
+(defun my-vesti-prettify-symbols ()
+  "Enable TeX symbol prettification in Vesti buffers."
+  (require 'tex-mode)
+  (setq-local prettify-symbols-alist tex--prettify-symbols-alist)
+  ;; Unicode script letters represent all three calligraphic font styles.
+  (dolist (style '(("b" . "mathbb")
+                   ("c" . "mathcal")
+                   ("s" . "mathcal")
+                   ("e" . "mathcal")
+                   ("f" . "mathfrak")))
+    (dotimes (index 26)
+      (let* ((letter (+ ?A index))
+             (symbol (cdr (assoc (format "\\%s{%c}" (cdr style) letter)
+                                 tex--prettify-symbols-alist))))
+        (push (cons (format "\\%c%s" letter (car style)) symbol)
+              prettify-symbols-alist))))
+  (dolist (alias '(("\\N" . "\\Nb")
+                   ("\\Z" . "\\Zb")
+                   ("\\Q" . "\\Qb")
+                   ("\\R" . "\\Rb")
+                   ("\\C" . "\\Cb")))
+    (push (cons (car alias) (cdr (assoc (cdr alias) prettify-symbols-alist)))
+          prettify-symbols-alist))
+  (setq-local prettify-symbols-compose-predicate
+              #'tex--prettify-symbols-compose-p)
+  (setq-local prettify-symbols-unprettify-at-point 'right-edge)
+  (prettify-symbols-mode 1))
+
+(add-hook 'vesti-ts-mode-hook #'my-vesti-prettify-symbols)
 
 ;; glosso mode
 (require 'glosso-ts-mode)

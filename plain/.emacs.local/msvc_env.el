@@ -1,7 +1,152 @@
-;; Automatically generated from msvc.env  -*- lexical-binding: t; -*-
+;;; msvc_env.el --- MSVC build environment for Emacs on Windows  -*- lexical-binding: t; -*-
 
-(setenv "PATH" "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\VC\\VCPackages;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\TeamFoundation\\Team Explorer;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\bin\\Roslyn;C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.8 Tools\\x64\\;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Team Tools\\DiagnosticsHub\\Collector;C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\bin\\\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\\\MSBuild\\Current\\Bin\\amd64;C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\Tools\\;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\VC\\VCPackages;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\TeamFoundation\\Team Explorer;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\bin\\Roslyn;C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.8 Tools\\x64\\;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Team Tools\\DiagnosticsHub\\Collector;C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\bin\\\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\\\MSBuild\\Current\\Bin\\amd64;C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\Tools\\;C:\\Program Files\\glzr.io\\GlazeWM\\\\cli;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\Git\\cmd;C:\\Program Files\\starship\\bin\\;C:\\Program Files\\Neovim\\bin;C:\\Program Files\\glzr.io\\Zebar\\;C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\;C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Program Files\\WezTerm;C:\\Program Files\\Wolfram Research\\WolframScript\\;C:\\Program Files\\dotnet\\;C:\\Program Files\\nodejs\\;C:\\Users\\almag\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\;C:\\Users\\almag\\AppData\\Local\\Programs\\Python\\Python313\\;C:\\Users\\almag\\AppData\\Local\\Programs\\Python\\Launcher\\;C:\\Users\\almag\\.elan\\bin;C:\\Users\\almag\\.cargo\\bin;C:\\Users\\almag\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\almag\\.local\\bin;C:\\texlive\\2025\\bin\\windows;C:\\Users\\almag\\AppData\\Local\\Programs\\nu\\bin\\;C:\\Users\\almag\\AppData\\Local\\SOOP;C:\\Users\\almag\\AppData\\Local\\Microsoft\\WinGet\\Links;;C:\\Users\\almag\\.ghcup\\ghcup\\bin;C:\\Users\\almag\\AppData\\Roaming\\npm;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\VC\\Linux\\bin\\ConnectionManagerExe;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\vcpkg;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\VC\\Linux\\bin\\ConnectionManagerExe;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\vcpkg;C:\\Program Files\\clang\\bin;C:Users\\almag\\.local\\zig")
-(setq exec-path (append (parse-colon-path (getenv "Path")) (list exec-directory)))
-(setenv "INCLUDE" "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\ATLMFC\\include;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\VS\\include;C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.26100.0\\ucrt;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\um;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\shared;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\winrt;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\cppwinrt;C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\include\\um;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\ATLMFC\\include;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\VS\\include;C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.26100.0\\ucrt;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\um;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\shared;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\winrt;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\cppwinrt;C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\include\\um")
-(setenv "LIB" "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\ATLMFC\\lib\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64;C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\lib\\um\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\lib\\10.0.26100.0\\ucrt\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\ATLMFC\\lib\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64;C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\lib\\um\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\lib\\10.0.26100.0\\ucrt\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64")
-(setenv "LIBPATH" "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\ATLMFC\\lib\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x86\\store\\references;C:\\Program Files (x86)\\Windows Kits\\10\\UnionMetadata\\10.0.26100.0;C:\\Program Files (x86)\\Windows Kits\\10\\References\\10.0.26100.0;C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\ATLMFC\\lib\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x86\\store\\references;C:\\Program Files (x86)\\Windows Kits\\10\\UnionMetadata\\10.0.26100.0;C:\\Program Files (x86)\\Windows Kits\\10\\References\\10.0.26100.0;C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319")
+;;; Commentary:
+
+;; Adds what vcvars64.bat sets (INCLUDE, LIB, LIBPATH, the MSVC and Windows
+;; SDK bin directories, ...) on top of the environment Emacs inherited.  The
+;; inherited PATH is kept, so everything else on it (TeX Live, Python, ...)
+;; stays visible.
+;;
+;; vcvars64.bat takes a couple of seconds to run, so its result is cached in
+;; `my/msvc-env-cache-file'.  The cache is rebuilt automatically when the MSVC
+;; toolset it points at disappears (e.g. after a Visual Studio update); run
+;; `M-x my/msvc-env-refresh' to rebuild it by hand.
+
+;;; Code:
+
+(defvar my/msvc-env-cache-file (locate-user-emacs-file "msvc-env.eld")
+  "File caching the environment that vcvars64.bat adds.")
+
+(defvar my/msvc-env-ignored-vars
+  '("PATH" "PROMPT" "__VSCMD_PREINIT_PATH"
+    ;; set by Emacs itself for every child process
+    "PWD" "EM_PARENT_PROCESS_ID")
+  "Variables never copied from the vcvars64.bat environment.")
+
+(defvar my/msvc--applied-path nil
+  "PATH entries added by the last `my/msvc--apply'.")
+
+(defun my/msvc--find-vcvars ()
+  "Return the path of vcvars64.bat of the newest Visual Studio, or nil."
+  (let ((vswhere (expand-file-name
+                  "Microsoft Visual Studio/Installer/vswhere.exe"
+                  (or (getenv "ProgramFiles(x86)") "C:/Program Files (x86)"))))
+    (when (file-executable-p vswhere)
+      (let ((install
+             (car (ignore-errors
+                    (process-lines
+                     vswhere "-latest" "-products" "*"
+                     "-requires" "Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+                     "-property" "installationPath")))))
+        (when (and install (not (string-empty-p install)))
+          (let ((bat (expand-file-name "VC/Auxiliary/Build/vcvars64.bat" install)))
+            (and (file-exists-p bat) bat)))))))
+
+(defun my/msvc--path-key (dir)
+  "Normalize DIR so PATH entries can be compared."
+  (downcase (replace-regexp-in-string
+             "/+\\'" ""
+             (replace-regexp-in-string "[/\\]+" "/" dir))))
+
+(defun my/msvc--capture (vcvars)
+  "Run VCVARS from Emacs's startup environment; return the result as an alist."
+  (let* ((bat (make-temp-file
+               "msvc-env" nil ".bat"
+               (format "@echo off\r\ncall \"%s\" >nul 2>&1\r\nset\r\n"
+                       (subst-char-in-string ?/ ?\\ vcvars))))
+         (process-environment initial-environment)
+         (env nil))
+    (unwind-protect
+        (with-temp-buffer
+          (call-process (or (getenv "ComSpec") "cmd.exe") nil '(t nil) nil
+                        "/d" "/c" (subst-char-in-string ?/ ?\\ bat))
+          (dolist (line (split-string (buffer-string) "\r?\n" t))
+            (when (string-match "\\`\\([^=]+\\)=\\(.*\\)\\'" line)
+              (push (cons (match-string 1 line) (match-string 2 line)) env))))
+      (delete-file bat))
+    (nreverse env)))
+
+(defun my/msvc--build (vcvars)
+  "Return the cache entry describing what VCVARS adds to the environment."
+  (let* ((env (my/msvc--capture vcvars))
+         (path (cdr (assoc-string "PATH" env t)))
+         (seen (mapcar #'my/msvc--path-key
+                       (split-string (or (getenv-internal "PATH" initial-environment) "")
+                                     ";" t)))
+         (dirs nil)
+         (vars nil))
+    (unless path
+      (error "Running %s produced no PATH" vcvars))
+    (dolist (dir (split-string path ";" t))
+      (let ((key (my/msvc--path-key dir)))
+        (unless (member key seen)
+          (push key seen)
+          (push dir dirs))))
+    (dolist (kv env)
+      (unless (or (member-ignore-case (car kv) my/msvc-env-ignored-vars)
+                  (equal (cdr kv) (getenv-internal (car kv) initial-environment)))
+        (push kv vars)))
+    (list :vcvars vcvars :path (nreverse dirs) :vars (nreverse vars))))
+
+(defun my/msvc--valid-p (cache)
+  "Return non-nil if CACHE still points at an installed MSVC toolset."
+  (and (consp cache)
+       (stringp (plist-get cache :vcvars))
+       (file-exists-p (plist-get cache :vcvars))
+       (let ((tools (cdr (assoc-string "VCToolsInstallDir" (plist-get cache :vars) t))))
+         (and tools (file-directory-p tools)))))
+
+(defun my/msvc--read-cache ()
+  "Return the cached environment, or nil."
+  (when (file-readable-p my/msvc-env-cache-file)
+    (ignore-errors
+      (with-temp-buffer
+        (insert-file-contents my/msvc-env-cache-file)
+        (read (current-buffer))))))
+
+(defun my/msvc--write-cache (cache)
+  "Save CACHE to `my/msvc-env-cache-file'."
+  (make-directory (file-name-directory my/msvc-env-cache-file) t)
+  (with-temp-file my/msvc-env-cache-file
+    (let ((print-length nil)
+          (print-level nil))
+      (insert ";; -*- mode: lisp-data -*-\n"
+              ";; Generated by msvc_env.el from vcvars64.bat; delete to regenerate.\n")
+      (prin1 cache (current-buffer))
+      (insert "\n"))))
+
+(defun my/msvc--apply (cache)
+  "Set the variables in CACHE and put its directories in front of PATH."
+  (dolist (kv (plist-get cache :vars))
+    (setenv (car kv) (cdr kv)))
+  (let* ((dirs (plist-get cache :path))
+         (drop (mapcar #'my/msvc--path-key (append dirs my/msvc--applied-path)))
+         (rest nil))
+    (dolist (dir (split-string (or (getenv "PATH") "") ";" t))
+      (unless (member (my/msvc--path-key dir) drop)
+        (push dir rest)))
+    (setenv "PATH" (mapconcat #'identity (append dirs (nreverse rest)) ";"))
+    (setq my/msvc--applied-path dirs)
+    (setq exec-path (append (parse-colon-path (getenv "PATH"))
+                            (list exec-directory)))))
+
+(defun my/msvc-env-refresh ()
+  "Re-run vcvars64.bat, rewrite the cache and apply the result."
+  (interactive)
+  (let ((vcvars (my/msvc--find-vcvars)))
+    (if (not vcvars)
+        (message "msvc_env: vcvars64.bat not found; MSVC environment not set")
+      (let ((cache (my/msvc--build vcvars)))
+        (my/msvc--write-cache cache)
+        (my/msvc--apply cache)
+        (message "msvc_env: environment taken from %s" vcvars)))))
+
+(let ((cache (my/msvc--read-cache)))
+  (if (my/msvc--valid-p cache)
+      (my/msvc--apply cache)
+    (condition-case err
+        (my/msvc-env-refresh)
+      (error (message "msvc_env: %s" (error-message-string err))))))
+
+(provide 'msvc_env)
+;;; msvc_env.el ends here
